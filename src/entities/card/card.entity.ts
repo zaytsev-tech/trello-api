@@ -1,21 +1,26 @@
 import {
   Entity,
   PrimaryGeneratedColumn,
-  Column,
+  Column as NestColumn,
   ManyToOne,
+  OneToMany,
   JoinColumn,
 } from 'typeorm';
-import { User } from '../user/user.entity';
+import { Column } from '../column/column.entity';
+import { Comment } from '../comment/comment.entity';
 
 @Entity('cards')
 export class Card {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ name: 'title', type: 'varchar' })
+  @NestColumn({ name: 'title', type: 'varchar' })
   title: string;
 
-  @ManyToOne(() => User, (user) => user.cards)
-  @JoinColumn({ name: 'author_id' })
-  author: User;
+  @ManyToOne(() => Column, (column) => column.cards)
+  @JoinColumn({ name: 'column_id' })
+  column: Column;
+
+  @OneToMany(() => Comment, (comment) => comment.card)
+  comments: Comment[];
 }

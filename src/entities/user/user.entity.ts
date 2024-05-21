@@ -1,39 +1,43 @@
 import {
-  Column,
+  Column as NestColumn,
   Entity,
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
   OneToMany,
 } from 'typeorm';
-import { Card } from '../card/card.entity';
+import { Comment } from '../comment/comment.entity';
+import { Column } from '../column/column.entity';
 
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
-  @OneToMany(() => Card, (card) => card.author, { onDelete: 'CASCADE' })
-  cards: Card[];
+  @OneToMany(() => Column, (column) => column.author, { onDelete: 'CASCADE' })
+  columns: Column[];
 
-  @Column({ name: 'email', type: 'varchar' })
+  @OneToMany(() => Comment, (comment) => comment.author)
+  comments: Comment[];
+
+  @NestColumn({ name: 'email', type: 'varchar' })
   email: string;
 
-  @Column({ name: 'password', type: 'varchar' })
+  @NestColumn({ name: 'password', type: 'varchar' })
   password: string;
 
-  @Column({ name: 'first_name', type: 'varchar' })
+  @NestColumn({ name: 'first_name', type: 'varchar' })
   firstName: string;
 
-  @Column({ name: 'last_name', type: 'varchar' })
+  @NestColumn({ name: 'last_name', type: 'varchar' })
   lastName: string;
 
-  @Column({ name: 'birth_date', type: 'timestamp', nullable: true })
+  @NestColumn({ name: 'birth_date', type: 'timestamp', nullable: true })
   birthDate: Date;
 }
