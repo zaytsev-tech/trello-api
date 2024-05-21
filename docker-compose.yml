@@ -1,0 +1,40 @@
+version: '3.5'
+
+services:
+  trello_postgres:
+    container_name: trello_postgres
+    image: postgres:14
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/var/www/trello_api/docker-volumes/postgres
+    ports:
+      - 127.0.0.1:5432:5432
+    networks:
+      - trello_api
+    restart: unless-stopped
+
+  trello_pgadmin:
+    container_name: trello_pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: trello@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - pgadmin:/var/www/trello_api/docker-volumes/pgadmin
+    ports:
+      - 127.0.0.1:5050:80
+    networks:
+      - trello_api
+    restart: unless-stopped
+
+networks:
+  trello_api:
+    driver: bridge
+
+volumes:
+  postgres:
+  pgadmin:
