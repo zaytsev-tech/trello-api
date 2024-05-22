@@ -26,7 +26,7 @@ export class User {
   @OneToMany(() => Comment, (comment) => comment.author)
   comments: Comment[];
 
-  @NestColumn({ name: 'email', type: 'varchar' })
+  @NestColumn({ name: 'email', type: 'varchar', unique: true })
   email: string;
 
   @NestColumn({ name: 'password', type: 'varchar' })
