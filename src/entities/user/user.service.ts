@@ -6,7 +6,7 @@ import { CreateUserDto } from './dto/createUser.dto';
 
 import { genSaltSync, hashSync } from 'bcrypt';
 
-const AVAILABLE_FIELDS = ['email', 'first_name', 'last_name', 'birth_date'];
+const AVAILABLE_FIELDS = ['email', 'firstName', 'lastName', 'birthDate'];
 
 @Injectable()
 export class UserService {
@@ -15,8 +15,14 @@ export class UserService {
   ) {}
 
   async getAllUsers() {
-    this.userRepository.find({
+    return await this.userRepository.find({
       select: AVAILABLE_FIELDS as any,
+    });
+  }
+
+  async getUserByEmail(email: string) {
+    return await this.userRepository.findOne({
+      where: { email },
     });
   }
 
