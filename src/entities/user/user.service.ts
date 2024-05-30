@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { Repository } from 'typeorm';
@@ -18,6 +18,19 @@ export class UserService {
     return await this.userRepository.find({
       select: AVAILABLE_FIELDS as any,
     });
+  }
+
+  async getUserById(id: number) {
+    const findedUser = await this.userRepository.findOne({
+      where: { id },
+      select: AVAILABLE_FIELDS as any,
+    });
+
+    if (!findedUser) {
+      throw new BadRequestException('User not found');
+    }
+
+    return findedUser;
   }
 
   async getUserByEmail(email: string) {

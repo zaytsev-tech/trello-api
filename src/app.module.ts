@@ -4,6 +4,7 @@ import { UserModule } from './entities/user/user.module';
 import { TypeOrmModule } from './db/typeorm.module';
 import { PassportModule } from './passport.module';
 import { AuthModule } from './auth/auth.module';
+import { ColumnModule } from './entities/column/column.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { AuthModule } from './auth/auth.module';
     UserModule,
     PassportModule,
     AuthModule,
+    ColumnModule,
   ],
 })
 export class AppModule {}

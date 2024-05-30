@@ -17,9 +17,9 @@ export class Column {
   @NestColumn({ name: 'title', type: 'varchar' })
   title: string;
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, (user) => user.columns)
   @JoinColumn({ name: 'author_id' })
-  author: string;
+  author: User;
 
   @OneToMany(() => Card, (card) => card.column, { onDelete: 'CASCADE' })
   cards: Card[];

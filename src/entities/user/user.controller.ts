@@ -3,6 +3,8 @@ import {
   Controller,
   Get,
   HttpCode,
+  Param,
+  ParseIntPipe,
   Post,
   Res,
   UseInterceptors,
@@ -21,6 +23,12 @@ export class UserController {
   async getAllUsers() {
     const users = await this.userService.getAllUsers();
     return users;
+  }
+
+  @Get('/:id')
+  @HttpCode(200)
+  async getUserById(@Param('id', ParseIntPipe) id: number) {
+    return await this.userService.getUserById(id);
   }
 
   @Post('/')
