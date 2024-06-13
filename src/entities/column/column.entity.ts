@@ -21,6 +21,9 @@ export class Column {
   @JoinColumn({ name: 'author_id' })
   author: User;
 
+  @NestColumn({ nullable: true })
+  author_id: number;
+
   @OneToMany(() => Card, (card) => card.column, { onDelete: 'CASCADE' })
   cards: Card[];
 }

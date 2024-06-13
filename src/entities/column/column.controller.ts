@@ -1,9 +1,12 @@
 import {
   Body,
   Controller,
+  Get,
+  Param,
   Post,
   Req,
   Res,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { ColumnService } from './column.service';
@@ -11,6 +14,8 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateColumnDto } from './dto/createColumn.dto';
 import { Request, Response } from 'express';
 import { User } from '../user/user.entity';
+import { UpdateColumnDto } from './dto/updateColumn.dto';
+import { AuthorGuard } from '../../guards/author.guard';
 
 @Controller('columns')
 export class ColumnController {
@@ -27,5 +32,24 @@ export class ColumnController {
 
     await this.columnService.createColumn({ ...body, authorId: userId });
     return res.send({ status: 'ok' });
+  }
+
+  @Get('/')
+  async getColumns() {
+    return await this.columnService.getColumns();
+  }
+
+  @Get('/:id')
+  async getColumnById(@Param() params: { id: string }) {
+    return await this.columnService.getColumnById(params.id);
+  }
+
+  @Post('/:id')
+  @UseGuards(AuthorGuard)
+  async updateColumn(
+    @Body() body: UpdateColumnDto,
+    @Param() params: { id: string },
+  ) {
+    return await this.columnService.updateColumn(params.id, { ...body });
   }
 }
