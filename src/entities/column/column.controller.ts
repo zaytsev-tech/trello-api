@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -11,10 +12,10 @@ import {
 } from '@nestjs/common';
 import { ColumnService } from './column.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { CreateColumnDto } from './dto/createColumn.dto';
+import { CreateColumnDto } from './dto/CreateColumn.dto';
 import { Request, Response } from 'express';
 import { User } from '../user/user.entity';
-import { UpdateColumnDto } from './dto/updateColumn.dto';
+import { UpdateColumnDto } from './dto/UpdateColumn.dto';
 import { AuthorGuard } from '../../guards/author.guard';
 
 @Controller('columns')
@@ -51,5 +52,11 @@ export class ColumnController {
     @Param() params: { id: string },
   ) {
     return await this.columnService.updateColumn(params.id, { ...body });
+  }
+
+  @Delete('/:id')
+  @UseGuards(AuthorGuard)
+  async deleteColumn(@Param() params: { id: string }) {
+    return await this.columnService.deleteColumn(params.id);
   }
 }

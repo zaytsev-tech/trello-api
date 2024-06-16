@@ -2,8 +2,8 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Column } from './column.entity';
-import { CreateColumnDto } from './dto/createColumn.dto';
-import { UpdateColumnDto } from './dto/updateColumn.dto';
+import { CreateColumnDto } from './dto/CreateColumn.dto';
+import { UpdateColumnDto } from './dto/UpdateColumn.dto';
 
 @Injectable()
 export class ColumnService {
@@ -24,12 +24,19 @@ export class ColumnService {
   }
 
   async getColumns() {
-    return await this.columnRepository.find();
+    return await this.columnRepository.find({
+      relations: {
+        cards: true,
+      },
+    });
   }
 
   async getColumnById(id: string) {
     const findedColumn = await this.columnRepository.findOne({
       where: { id: Number(id) },
+      relations: {
+        cards: true,
+      },
     });
 
     if (!findedColumn) {
@@ -41,5 +48,9 @@ export class ColumnService {
 
   async updateColumn(id: string, body: UpdateColumnDto) {
     return this.columnRepository.update(id, body);
+  }
+
+  async deleteColumn(id: string) {
+    return this.columnRepository.delete(id);
   }
 }

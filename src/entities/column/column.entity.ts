@@ -25,5 +25,6 @@ export class Column {
   author_id: number;
 
   @OneToMany(() => Card, (card) => card.column, { onDelete: 'CASCADE' })
+  @JoinColumn()
   cards: Card[];
 }
