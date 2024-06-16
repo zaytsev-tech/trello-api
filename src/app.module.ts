@@ -5,6 +5,7 @@ import { TypeOrmModule } from './db/typeorm.module';
 import { PassportModule } from './passport.module';
 import { AuthModule } from './auth/auth.module';
 import { ColumnModule } from './entities/column/column.module';
+import { CardModule } from './entities/card/card.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { ColumnModule } from './entities/column/column.module';
     PassportModule,
     AuthModule,
     ColumnModule,
+    CardModule,
   ],
 })
 export class AppModule {}

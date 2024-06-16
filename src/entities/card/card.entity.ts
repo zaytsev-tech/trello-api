@@ -21,6 +21,9 @@ export class Card {
   @JoinColumn({ name: 'column_id' })
   column: Column;
 
+  @NestColumn({ nullable: true })
+  column_id: number;
+
   @OneToMany(() => Comment, (comment) => comment.card)
   comments: Comment[];
 }
