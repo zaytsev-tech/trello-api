@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { Column } from '../column/column.entity';
 import { Comment } from '../comment/comment.entity';
+import { User } from '../user/user.entity';
 
 @Entity('cards')
 export class Card {
@@ -16,6 +17,13 @@ export class Card {
 
   @NestColumn({ name: 'title', type: 'varchar' })
   title: string;
+
+  @ManyToOne(() => User, (user) => user.cards)
+  @JoinColumn({ name: 'author_id' })
+  author: Column;
+
+  @NestColumn({ nullable: true })
+  author_id: number;
 
   @ManyToOne(() => Column, (column) => column.cards)
   @JoinColumn({ name: 'column_id' })

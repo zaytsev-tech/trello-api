@@ -6,10 +6,14 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { ColumnService } from '../entities/column/column.service';
+import { CardService } from 'src/entities/card/card.service';
 
 @Injectable()
 export class AuthorGuard implements CanActivate {
-  constructor(private readonly columnService: ColumnService) {}
+  constructor(
+    private readonly columnService: ColumnService,
+    private readonly cardService: CardService,
+  ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const controllerName = context.getClass().name;
@@ -23,6 +27,12 @@ export class AuthorGuard implements CanActivate {
         entity = await this.columnService.getColumnById(id);
         if (!entity) {
           throw new BadRequestException('Column not found');
+        }
+        break;
+      case 'CardController':
+        entity = await this.cardService.getCardById(id);
+        if (!entity) {
+          throw new BadRequestException('Card not found');
         }
         break;
       default:
