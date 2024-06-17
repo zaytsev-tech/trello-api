@@ -10,22 +10,27 @@ export class CardService {
     private readonly cardRepository: Repository<Card>,
   ) {}
 
-  async createCard(columnId: number, title: string) {
+  async createCard(userId: number, columnId: number, title: string) {
     const newCard = await this.cardRepository.create({
       title,
       column_id: columnId,
+      author: {
+        id: userId,
+      },
     });
 
     return await this.cardRepository.save(newCard);
   }
 
   async updateCard(cardId: string, title: string) {
-    const findedCard = await this.cardRepository.findBy({ id: Number(cardId) });
+    return await this.cardRepository.update(cardId, { title });
+  }
 
-    if (!findedCard) {
-      throw new BadRequestException('Card not found');
-    }
+  async deleteCard(cardId: string) {
+    return await this.cardRepository.delete(cardId);
+  }
 
-    return await this.cardRepository.update(cardId, { ...findedCard, title });
+  async getCardById(cardId: string) {
+    return await this.cardRepository.findOne({ where: { id: Number(cardId) } });
   }
 }

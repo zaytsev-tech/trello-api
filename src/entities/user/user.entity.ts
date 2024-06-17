@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { Comment } from '../comment/comment.entity';
 import { Column } from '../column/column.entity';
+import { Card } from '../card/card.entity';
 
 @Entity('users')
 export class User {
@@ -22,6 +23,9 @@ export class User {
 
   @OneToMany(() => Column, (column) => column.author, { onDelete: 'CASCADE' })
   columns: Column[];
+
+  @OneToMany(() => Card, (card) => card.author, { onDelete: 'CASCADE' })
+  cards: Card[];
 
   @OneToMany(() => Comment, (comment) => comment.author)
   comments: Comment[];
