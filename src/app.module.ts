@@ -6,6 +6,7 @@ import { PassportModule } from './passport.module';
 import { AuthModule } from './auth/auth.module';
 import { ColumnModule } from './entities/column/column.module';
 import { CardModule } from './entities/card/card.module';
+import { CommentModule } from './entities/comment/comment.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { CardModule } from './entities/card/card.module';
     AuthModule,
     ColumnModule,
     CardModule,
+    CommentModule,
   ],
 })
 export class AppModule {}
